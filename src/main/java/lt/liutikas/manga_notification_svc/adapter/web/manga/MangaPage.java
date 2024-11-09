@@ -1,4 +1,4 @@
-package lt.liutikas.manga_notification_svc.adapter.web;
+package lt.liutikas.manga_notification_svc.adapter.web.manga;
 
 import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
 

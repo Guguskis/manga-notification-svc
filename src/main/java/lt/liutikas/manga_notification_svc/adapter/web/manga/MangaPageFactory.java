@@ -1,4 +1,4 @@
-package lt.liutikas.manga_notification_svc.adapter.web;
+package lt.liutikas.manga_notification_svc.adapter.web.manga;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

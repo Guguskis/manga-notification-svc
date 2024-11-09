@@ -1,4 +1,4 @@
-package lt.liutikas.manga_notification_svc.adapter.web;
+package lt.liutikas.manga_notification_svc.adapter.web.manga;
 
 import lombok.RequiredArgsConstructor;
 import lt.liutikas.manga_notification_svc.common.util.UrlUtils;
@@ -13,19 +13,19 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class BerserkerMangaPage implements MangaPage {
+public class OnePunchManMangaPage implements MangaPage {
 
-    private static final String PAGE_HOST = "readberserk.com";
-    private static final String CHAPTERS_LIST_CSS_SELECTOR = "tbody.no-border-x tr";
-    private static final String CHAPTER_TITLE_CSS_SELECTOR = "td";
-    private static final String CHAPTER_URL_CSS_SELECTOR = "td a";
+    private static final String PAGE_HOST = "https://www.mangaread.org/manga/one-punch-man-onepunchman/";
+    private static final String CHAPTERS_LIST_CSS_SELECTOR = "li.wp-manga-chapter";
+    private static final String CHAPTER_TITLE_CSS_SELECTOR = "a";
+    private static final String CHAPTER_URL_CSS_SELECTOR = "a";
 
     private final WebDriver webDriver;
 
     @Override
     public boolean supports(URL url) {
 
-        return url.getHost().equalsIgnoreCase(PAGE_HOST);
+        return url.toString().equalsIgnoreCase(PAGE_HOST);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class BerserkerMangaPage implements MangaPage {
 
     private String navigateToHomePage() {
 
-        webDriver.navigate().to("https://" + PAGE_HOST);
+        webDriver.navigate().to(PAGE_HOST);
 
         return webDriver.getPageSource();
     }
@@ -55,13 +55,12 @@ public class BerserkerMangaPage implements MangaPage {
 
     private LatestMangaChapter toMangaChapter(Element chapterItem) {
 
-        String title = chapterItem.select(CHAPTER_TITLE_CSS_SELECTOR).get(0).text();
-        String url = chapterItem.select(CHAPTER_URL_CSS_SELECTOR).attr("href");
+        String title = chapterItem.select(CHAPTER_TITLE_CSS_SELECTOR).text().trim();
+        String url = chapterItem.select(CHAPTER_URL_CSS_SELECTOR).attr("href").trim();
 
         return LatestMangaChapter.builder()
                 .title(title)
                 .url(UrlUtils.toUrl(url))
                 .build();
     }
-
 }
