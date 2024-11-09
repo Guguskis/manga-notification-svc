@@ -3,7 +3,6 @@ package lt.liutikas.manga_notification_svc.adapter.web;
 import lombok.RequiredArgsConstructor;
 import lt.liutikas.manga_notification_svc.common.util.UrlUtils;
 import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
-import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriver;
@@ -24,13 +23,13 @@ public class BerserkerMangaPage implements MangaPage {
     private final WebDriver webDriver;
 
     @Override
-    public boolean urlSupported(URL url) {
+    public boolean supports(URL url) {
 
         return url.getHost().equalsIgnoreCase(PAGE_HOST);
     }
 
     @Override
-    public List<LatestMangaChapter> getChapters(MangaSubscription subscription) {
+    public List<LatestMangaChapter> getChapters() {
 
         String pageBodyHtml = navigateToHomePage();
 

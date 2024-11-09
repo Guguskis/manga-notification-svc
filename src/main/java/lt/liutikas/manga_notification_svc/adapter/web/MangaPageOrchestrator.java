@@ -12,17 +12,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MangaPageOrchestrator implements FetchLatestMangaChaptersPort {
 
-    private final List<MangaPage> mangaPages;
+    private final MangaPageFactory mangaPageFactory;
 
     @Override
     public List<LatestMangaChapter> fetch(MangaSubscription subscription) {
 
-        return mangaPages.stream()
-                .filter(page -> page.urlSupported(subscription.getPageUrl()))
-                .findFirst()
-                .map(mangaPage -> mangaPage.getChapters(subscription))
-                .orElseThrow(() -> new IllegalStateException(
-                        "No manga page found for subscription [%s]"
-                                .formatted(subscription.getPageUrl())));
+        return mangaPageFactory
+                .getMangaPage(subscription.getPageUrl())
+                .getChapters();
     }
 }
