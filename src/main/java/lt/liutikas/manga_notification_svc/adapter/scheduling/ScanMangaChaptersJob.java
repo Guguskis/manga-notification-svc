@@ -11,7 +11,7 @@ public class ScanMangaChaptersJob {
 
     private final ScanMangaChaptersUseCase scanMangaChaptersUseCase;
 
-    @Scheduled(cron = "0 0 */4 * * ?")
+    @Scheduled(cron = "${job.scanMangaChapters.cron:0 0 */4 * * ?}")
     public void scanRides() {
 
         scanMangaChaptersUseCase.scan();

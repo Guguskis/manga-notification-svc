@@ -3,6 +3,7 @@ package lt.liutikas.manga_notification_svc.application;
 import lombok.RequiredArgsConstructor;
 import lt.liutikas.manga_notification_svc.application.port.in.ScanMangasPort;
 import lt.liutikas.manga_notification_svc.application.port.out.*;
+import lt.liutikas.manga_notification_svc.common.util.Loggable;
 import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ScanMangaChaptersUseCase implements ScanMangasPort {
+public class ScanMangaChaptersUseCase implements Loggable, ScanMangasPort {
 
     private final FetchMangaSubscriptionsPort fetchMangaSubscriptionsPort;
     private final FetchLatestMangaChaptersPort fetchLatestMangaChaptersPort;
@@ -23,6 +24,8 @@ public class ScanMangaChaptersUseCase implements ScanMangasPort {
     @Override
     public void scan() {
 
+        getLogger().info("Scanning new manga chapters");
+
         try {
             scanChapters();
         } catch (Exception e) {
@@ -31,9 +34,12 @@ public class ScanMangaChaptersUseCase implements ScanMangasPort {
     }
 
     private void scanChapters() {
+
         for (MangaSubscription subscription : fetchMangaSubscriptionsPort.fetch()) {
 
             List<MangaChapter> newChapters = createNewChapters(subscription);
+
+            getLogger().info("Found [{}] new chapters for [{}]", newChapters.size(), subscription.getName());
 
             for (MangaChapter chapter : newChapters) {
                 notifyNewChapterPort.notifyNewChapter(chapter, subscription);

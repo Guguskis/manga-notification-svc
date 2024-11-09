@@ -13,25 +13,25 @@ services:
     networks:
       - manga-notification-network
 
-#  spring-app:
-#    image: manga-notification-svc:latest
-#    container_name: manga-notification-svc-app
-#    depends_on:
-#      - postgres
-#      - selenium
-#    networks:
-#      - manga-notification-network
+  spring-app:
+    image: manga-notification-svc:latest
+    container_name: manga-notification-svc-app
+    depends_on:
+      - postgres
+      - selenium
+    networks:
+      - manga-notification-network
 
-#  selenium:
-#    image: selenium/standalone-firefox:132.0
-#    container_name: selenium-firefox
-#    environment:
-#      SE_ENABLE_TRACING: false
-#    ports:
-#      - "4444:4444"
-#    shm_size: 2g
-#    networks:
-#      - manga-notification-network
+  selenium:
+    image: selenium/standalone-firefox:132.0
+    container_name: manga-notification-svc-selenium-firefox
+    environment:
+      SE_ENABLE_TRACING: false
+    ports:
+      - "4445:4444"
+    shm_size: 2g
+    networks:
+      - manga-notification-network
 
 volumes:
   postgres_data:
