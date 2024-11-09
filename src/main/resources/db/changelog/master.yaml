@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: 202411091350_create_table_manga_chapter.sql
+      relativeToChangelogFile: true

@@ -21,9 +21,9 @@ repositories {
 
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.jooq:jooq-codegen:3.18.0'
 	jooqGenerator 'org.postgresql:postgresql'
@@ -60,7 +60,7 @@ jooq {
 			generationTool {
 				jdbc {
 					driver = 'org.postgresql.Driver'
-					url = 'jdbc:postgresql://localhost:5432/bananacar_notification_svc'
+					url = 'jdbc:postgresql://localhost:5433/manga_notification_svc'
 					user = 'postgresql'
 					password = 'admin'
 				}
@@ -85,12 +85,12 @@ jooq {
 					}
 
 					target {
-						packageName = 'lt.liutikas.bananacar_notification_svc.db.jooq'
+						packageName = 'lt.liutikas.manga_notification_svc.db.jooq'
 						directory = "src/main/generated-db-entities/java"
 					}
 
 					strategy {
-						name = 'lt.liutikas.bananacar_notification_svc.common.PrefixJooqGeneratorStrategy'
+						name = 'lt.liutikas.manga_notification_svc.common.util.PrefixJooqGeneratorStrategy'
 					}
 				}
 			}
