@@ -1,8 +1,8 @@
 package lt.liutikas.manga_notification_svc.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import lt.liutikas.manga_notification_svc.application.port.out.FetchMangaChaptersPort;
-import lt.liutikas.manga_notification_svc.domain.MangaChapter;
+import lt.liutikas.manga_notification_svc.application.port.out.FetchLatestMangaChaptersPort;
+import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +10,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MangaPageOrchestrator implements FetchMangaChaptersPort {
+public class MangaPageOrchestrator implements FetchLatestMangaChaptersPort {
 
     private final List<MangaPage> mangaPages;
 
     @Override
-    public List<MangaChapter> fetch(MangaSubscription subscription) {
+    public List<LatestMangaChapter> fetch(MangaSubscription subscription) {
 
         return mangaPages.stream()
                 .filter(page -> page.urlSupported(subscription.getPageUrl()))

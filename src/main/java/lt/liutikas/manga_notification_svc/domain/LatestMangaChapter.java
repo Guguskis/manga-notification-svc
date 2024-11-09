@@ -4,13 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.net.URL;
-import java.util.UUID;
 
 @Data
 @Builder
-public class MangaChapter {
+public class LatestMangaChapter {
 
-    private UUID mangaSubscriptionId;
-    private String title;
-    private URL url;
+    private final String title;
+    private final URL url;
 }

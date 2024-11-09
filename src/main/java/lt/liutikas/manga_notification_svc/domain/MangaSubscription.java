@@ -12,5 +12,4 @@ public class MangaSubscription {
 
     private UUID id;
     private URL pageUrl;
-
 }

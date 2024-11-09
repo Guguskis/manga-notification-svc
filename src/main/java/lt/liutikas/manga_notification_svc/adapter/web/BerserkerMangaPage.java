@@ -1,7 +1,8 @@
 package lt.liutikas.manga_notification_svc.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import lt.liutikas.manga_notification_svc.domain.MangaChapter;
+import lt.liutikas.manga_notification_svc.common.util.UrlUtils;
+import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -29,11 +30,11 @@ public class BerserkerMangaPage implements MangaPage {
     }
 
     @Override
-    public List<MangaChapter> getChapters(MangaSubscription subscription) {
+    public List<LatestMangaChapter> getChapters(MangaSubscription subscription) {
 
         String pageBodyHtml = navigateToHomePage();
 
-        return parseMangaChapters(pageBodyHtml, subscription);
+        return parseMangaChapters(pageBodyHtml);
     }
 
     private String navigateToHomePage() {
@@ -43,25 +44,25 @@ public class BerserkerMangaPage implements MangaPage {
         return webDriver.getPageSource();
     }
 
-    public List<MangaChapter> parseMangaChapters(String pageBodyHtml, MangaSubscription subscription) {
+    public List<LatestMangaChapter> parseMangaChapters(String pageBodyHtml) {
 
         return Jsoup
                 .parse(pageBodyHtml)
                 .select(CHAPTERS_LIST_CSS_SELECTOR)
                 .stream()
-                .map(chapterItem -> toMangaChapter(chapterItem, subscription))
+                .map(this::toMangaChapter)
                 .toList();
     }
 
-    private MangaChapter toMangaChapter(Element chapterItem, MangaSubscription subscription) {
+    private LatestMangaChapter toMangaChapter(Element chapterItem) {
 
         String title = chapterItem.select(CHAPTER_TITLE_CSS_SELECTOR).get(0).text();
         String url = chapterItem.select(CHAPTER_URL_CSS_SELECTOR).attr("href");
 
-        return MangaChapter.builder()
-                .mangaSubscriptionId(subscription.getId())
+        return LatestMangaChapter.builder()
                 .title(title)
-                .url(url)
+                .url(UrlUtils.toUrl(url))
                 .build();
     }
+
 }

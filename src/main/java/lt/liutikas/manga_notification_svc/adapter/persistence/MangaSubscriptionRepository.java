@@ -4,9 +4,9 @@ import lt.liutikas.manga_notification_svc.application.port.out.FetchMangaSubscri
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
 import org.springframework.stereotype.Repository;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+
+import static lt.liutikas.manga_notification_svc.common.util.UrlUtils.toUrl;
 
 @Repository
 public class MangaSubscriptionRepository implements FetchMangaSubscriptionsPort {
@@ -19,14 +19,5 @@ public class MangaSubscriptionRepository implements FetchMangaSubscriptionsPort 
                         .pageUrl(toUrl("https://readberserk.com/"))
                         .build()
         );
-    }
-
-    private URL toUrl(String url) {
-
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Bad url", e);
-        }
     }
 }
