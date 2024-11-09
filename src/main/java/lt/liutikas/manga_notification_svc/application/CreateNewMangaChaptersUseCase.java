@@ -7,6 +7,7 @@ import lt.liutikas.manga_notification_svc.application.port.out.FetchMangaChapter
 import lt.liutikas.manga_notification_svc.domain.MangaChapter;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -49,10 +50,15 @@ public class CreateNewMangaChaptersUseCase implements CreateNewMangaChaptersPort
 
     private MangaChapter toMangaChapter(UUID subscriptionId, CreateMangaChapter chapter) {
 
+        LocalDateTime now = LocalDateTime.now();
+
         return MangaChapter.builder()
+                .id(UUID.randomUUID())
                 .mangaSubscriptionId(subscriptionId)
                 .title(chapter.getTitle())
                 .url(chapter.getUrl())
+                .createdOn(now)
+                .updatedOn(now)
                 .build();
     }
 }
