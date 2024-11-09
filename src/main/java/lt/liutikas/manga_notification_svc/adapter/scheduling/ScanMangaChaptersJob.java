@@ -1,7 +1,7 @@
 package lt.liutikas.manga_notification_svc.adapter.scheduling;
 
 import lombok.RequiredArgsConstructor;
-import lt.liutikas.manga_notification_svc.application.ScanMangasUseCase;
+import lt.liutikas.manga_notification_svc.application.ScanMangaChaptersUseCase;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ScanMangaChaptersJob {
 
-    private final ScanMangasUseCase scanMangasUseCase;
+    private final ScanMangaChaptersUseCase scanMangaChaptersUseCase;
 
     @Scheduled(cron = "0 0 */4 * * ?")
     public void scanRides() {
 
-        scanMangasUseCase.scan();
+        scanMangaChaptersUseCase.scan();
     }
 }

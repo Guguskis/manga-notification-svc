@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ScanMangasUseCase implements ScanMangasPort { // todo rename to ScanMangaChaptersUseCase
+public class ScanMangaChaptersUseCase implements ScanMangasPort {
 
     private final FetchMangaSubscriptionsPort fetchMangaSubscriptionsPort;
     private final FetchLatestMangaChaptersPort fetchLatestMangaChaptersPort;
@@ -47,7 +47,7 @@ public class ScanMangasUseCase implements ScanMangasPort { // todo rename to Sca
         List<CreateNewMangaChaptersPort.CreateMangaChapter> chapters =
                 fetchLatestMangaChaptersPort.fetch(subscription)
                         .stream()
-                        .map(ScanMangasUseCase::toNewChapter)
+                        .map(ScanMangaChaptersUseCase::toNewChapter)
                         .toList();
 
         CreateNewMangaChaptersPort.Command command =
