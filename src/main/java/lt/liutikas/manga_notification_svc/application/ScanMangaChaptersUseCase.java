@@ -29,8 +29,8 @@ public class ScanMangaChaptersUseCase implements Loggable, ScanMangasPort {
         try {
             scanChapters();
         } catch (Exception e) {
-            getLogger().error("Failed to scan manga chapters", e);
-            notifyApplicationErrorPort.notifyError("Failed to scan manga chapters", e);
+            getLogger().error("Error scanning manga chapters", e);
+            notifyApplicationErrorPort.notifyError("Error scanning manga chapters", e);
         }
     }
 
