@@ -2,10 +2,7 @@ package lt.liutikas.manga_notification_svc.application;
 
 import lombok.RequiredArgsConstructor;
 import lt.liutikas.manga_notification_svc.application.port.in.ScanMangasPort;
-import lt.liutikas.manga_notification_svc.application.port.out.CreateNewMangaChaptersPort;
-import lt.liutikas.manga_notification_svc.application.port.out.FetchLatestMangaChaptersPort;
-import lt.liutikas.manga_notification_svc.application.port.out.FetchMangaSubscriptionsPort;
-import lt.liutikas.manga_notification_svc.application.port.out.NotifyNewChapterPort;
+import lt.liutikas.manga_notification_svc.application.port.out.*;
 import lt.liutikas.manga_notification_svc.domain.LatestMangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
@@ -15,16 +12,25 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ScanMangasUseCase implements ScanMangasPort {
+public class ScanMangasUseCase implements ScanMangasPort { // todo rename to ScanMangaChaptersUseCase
 
     private final FetchMangaSubscriptionsPort fetchMangaSubscriptionsPort;
     private final FetchLatestMangaChaptersPort fetchLatestMangaChaptersPort;
     private final CreateNewMangaChaptersPort createNewMangaChaptersPort;
     private final NotifyNewChapterPort notifyNewChapterPort;
+    private final NotifyApplicationErrorPort notifyApplicationErrorPort;
 
     @Override
     public void scan() {
 
+        try {
+            scanChapters();
+        } catch (Exception e) {
+            notifyApplicationErrorPort.notifyError("Failed to scan manga chapters", e);
+        }
+    }
+
+    private void scanChapters() {
         for (MangaSubscription subscription : fetchMangaSubscriptionsPort.fetch()) {
 
             List<MangaChapter> newChapters = createNewChapters(subscription);

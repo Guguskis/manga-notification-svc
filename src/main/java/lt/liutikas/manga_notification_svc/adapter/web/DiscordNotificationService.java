@@ -1,6 +1,7 @@
 package lt.liutikas.manga_notification_svc.adapter.web;
 
 import lombok.RequiredArgsConstructor;
+import lt.liutikas.manga_notification_svc.application.port.out.NotifyApplicationErrorPort;
 import lt.liutikas.manga_notification_svc.application.port.out.NotifyNewChapterPort;
 import lt.liutikas.manga_notification_svc.common.util.Loggable;
 import lt.liutikas.manga_notification_svc.domain.MangaChapter;
@@ -15,7 +16,10 @@ import java.net.URL;
 
 @Service
 @RequiredArgsConstructor
-public class DiscordNotificationService implements Loggable, NotifyNewChapterPort {
+public class DiscordNotificationService implements
+        Loggable,
+        NotifyNewChapterPort,
+        NotifyApplicationErrorPort {
 
     private static final String HEADER_NEW_CHAPTER = "New chapter!";
 
@@ -32,6 +36,19 @@ public class DiscordNotificationService implements Loggable, NotifyNewChapterPor
                 .send(channel)
                 .thenAcceptAsync(action -> action
                         .edit(buildFormattedContent(chapter, subscription))
+                        .join()
+                )
+                .join();
+    }
+
+    @Override
+    public void notifyError(String message, Exception e) {
+
+        new MessageBuilder()
+                .setContent(message)
+                .send(channel)
+                .thenAcceptAsync(action -> action
+                        .edit(buildFormattedContent(message, e))
                         .join()
                 )
                 .join();
@@ -65,6 +82,16 @@ public class DiscordNotificationService implements Loggable, NotifyNewChapterPor
                         mangaSubscription.getName(),
                         chapter.getTitle()
                 );
+    }
+
+    private String buildFormattedContent(String message, Exception e) {
+
+        return """
+                ## %s
+                ```diff
+                - %s
+                ```
+                """.formatted(message, e.toString());
     }
 
     private static ActionRow linkButton(URL url) {
