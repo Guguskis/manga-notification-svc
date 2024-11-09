@@ -11,7 +11,6 @@ import lt.liutikas.manga_notification_svc.domain.MangaChapter;
 import lt.liutikas.manga_notification_svc.domain.MangaSubscription;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -26,11 +25,15 @@ public class ScanMangasUseCase implements ScanMangasPort {
     @Override
     public void scan() {
 
-        fetchMangaSubscriptionsPort.fetch()
-                .stream()
-                .map(this::createNewChapters)
-                .flatMap(Collection::stream)
-                .forEach(notifyNewChapterPort::notifyNewChapter);
+        for (MangaSubscription subscription : fetchMangaSubscriptionsPort.fetch()) {
+
+            List<MangaChapter> newChapters = createNewChapters(subscription);
+
+            for (MangaChapter chapter : newChapters) {
+                notifyNewChapterPort.notifyNewChapter(chapter, subscription);
+            }
+
+        }
     }
 
     private List<MangaChapter> createNewChapters(MangaSubscription subscription) {

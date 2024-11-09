@@ -18,10 +18,12 @@ public class MangaSubscriptionRepository implements FetchMangaSubscriptionsPort 
         return List.of(
                 MangaSubscription.builder()
                         .id(UUID.fromString("d7e41dde-7363-4988-9d54-1430ef96d267"))
+                        .name("Berserk")
                         .pageUrl(toUrl("https://readberserk.com/"))
                         .build(),
                 MangaSubscription.builder()
                         .id(UUID.fromString("fd9a04cf-1e6e-40a2-88c3-f38cee3fa3a9"))
+                        .name("One Punch Man")
                         .pageUrl(toUrl("https://www.mangaread.org/manga/one-punch-man-onepunchman/"))
                         .build()
         );

@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 public class MangaSubscription {
 
-    private UUID id;
-    private URL pageUrl;
+    private final UUID id;
+    private final String name;
+    private final URL pageUrl;
 }
