@@ -27,6 +27,7 @@ services:
     container_name: manga-notification-svc-selenium-firefox
     environment:
       SE_ENABLE_TRACING: false
+      SE_NODE_SESSION_TIMEOUT: 86400 # 24h
     ports:
       - "4445:4444"
     shm_size: 2g
